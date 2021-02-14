@@ -1,0 +1,3 @@
+backend/api/node_modules/*
+backend/mysql_db_data/*
+frontend/backoffice/node_modules/*

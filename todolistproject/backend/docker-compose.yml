@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  #########
+  ## API ##
+  #########
+  todolist_api:
+    container_name: todolist_api
+    image: node
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./api:/app
+    working_dir: /app
+    env_file:
+      - ./api/.env
+    command: bash -c 'npm i && npm run dev' #for npm modules installation inside container and hot reloading in dev environment
+    #command: bash -c 'npm i && npm start' #for npm modules installation inside container without hot reloaing in dev environment
+    #command: npm start #for production environment
+    depends_on:
+      - todolist_db
+
+  #########
+  ## DB ##
+  #########
+  todolist_db:
+    container_name: todolist_db
+    image: mariadb
+    env_file:
+      - ./mysql_db/.env
+    volumes:
+      - ./mysql_db_data:/var/lib/mysql
+
+  #############
+  ## ADMINER ##
+  #############
+  todolist_adminer:
+    container_name: todolist_adminer
+    image: adminer
+    ports:
+      - 9090:8080
